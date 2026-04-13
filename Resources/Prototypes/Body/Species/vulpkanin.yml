@@ -145,8 +145,6 @@
   id: MobVulpkanin
   name: Urist McArfArf
   components:
-  - type: MobSize
-    size: Medium
   - type: MessyDrinker
     spillChance: 0.33
   - type: Speech

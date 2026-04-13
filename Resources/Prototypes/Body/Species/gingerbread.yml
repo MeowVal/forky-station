@@ -45,8 +45,6 @@
   id: MobGingerbread
   name: Urist McCookie
   components:
-  - type: MobSize
-    size: Medium
   - type: Butcherable
     spawned:
     - id: FoodBakedCookie

@@ -73,8 +73,6 @@
   id: MobArachnid
   name: Urist McWebs
   components:
-  - type: MobSize
-    size: Medium
   - type: Respirator
     damage:
       types:

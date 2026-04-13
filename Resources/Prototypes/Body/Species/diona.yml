@@ -71,8 +71,6 @@
   id: MobDiona
   name: McUrist Plants
   components:
-  - type: MobSize
-    size: Medium
   - type: Respirator
     damage:
       types:
