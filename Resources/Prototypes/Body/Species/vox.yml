@@ -159,6 +159,8 @@
   id: MobVox
   name: Uristititi McVox
   components:
+  - type: MobSize
+    size: Medium
   - type: Damageable
     damageModifierSet: Vox
   - type: Speech

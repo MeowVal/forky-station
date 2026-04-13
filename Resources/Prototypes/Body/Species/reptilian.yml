@@ -117,6 +117,8 @@
   id: MobReptilian
   name: Urissst Mz'Hand
   components:
+  - type: MobSize
+    size: Medium
   - type: Puller
     needsHands: false
   - type: Butcherable

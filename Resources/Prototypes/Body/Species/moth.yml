@@ -139,6 +139,8 @@
   id: MobMoth
   name: Urist McFluff
   components:
+  - type: MobSize
+    size: Medium
   - type: Damageable
     damageModifierSet: Moth
   - type: ZombieAccentOverride

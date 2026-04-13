@@ -89,10 +89,13 @@
   id: MobHuman
   name: Urist McHands
   components:
+  - type: MobSize
+    size: Medium
   - type: Butcherable
     spawned:
     - id: FoodMeatHuman
       amount: 5
+  
 
 - type: entity
   parent: OrganBase

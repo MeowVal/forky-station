@@ -46,6 +46,7 @@
   components:
     - type: Lightning
       canArc: true
+      lightningEnergy: 5000000
 
 - type: entity
   name: spooky lightning
@@ -134,6 +135,7 @@
       shockDamage: 50
     - type: Lightning
       canArc: true
+      lightningEnergy: 5000000
       lightningPrototype: SuperchargedLightning
     - type: PointLight
       enabled: true

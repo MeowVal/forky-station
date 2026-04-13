@@ -73,6 +73,8 @@
   id: MobSkeletonPerson
   name: Urist McSkelly
   components:
+  - type: MobSize
+    size: Medium
   - type: Damageable
     damageContainer: BiologicalMetaphysical
     damageModifierSet: Skeleton
