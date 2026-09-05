@@ -36,7 +36,7 @@ public sealed partial class SharedSupermatterComponent : Component
     [DataField("maxIntegrity")]
     public float MaxIntegrity = 1000f;
     [DataField("vacuumDamagePerTile")]
-    public float VacuumDamagePerTile = 0.5f;
+    public float VacuumDamagePerTile = 1.2f;
     /// <summary>
     /// Integrity vacuum stress only applies when stored power exceeds this (after per-tick stability injection).
     /// </summary>
@@ -88,7 +88,7 @@ public sealed partial class SharedSupermatterComponent : Component
     [DataField("minGravRange")]
     public float MinGravRange = 0.5f;
     [DataField("gravAcceleration")]
-    public float GravAcceleration = 5f;
+    public float GravAcceleration = 1f;
 
     // --- Process values ---
     [DataField("gasCharacteristicScalar")]

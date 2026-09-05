@@ -1,6 +1,6 @@
 - type: gasCharacteristics
   id: Oxygen
-  stability: 0
+  stability: -1
   growth: -0.6
   conductivity: -1
   enthalpy: 0
@@ -14,24 +14,24 @@
 
 - type: gasCharacteristics
   id: CarbonDioxide
-  stability: -0.3
+  stability: -1
   growth: 1
   conductivity: 0
   enthalpy: 0.3
 
 - type: gasCharacteristics
   id: Plasma
-  stability: -0.3
+  stability: -1
   growth: -0.3
   conductivity: 0
   enthalpy: 1
 
 - type: gasCharacteristics
   id: Tritium
-  stability: -1
-  growth: -0.2
-  conductivity: 0.2
-  enthalpy: 0.2
+  stability: -2
+  growth: -0.5
+  conductivity: 0.5
+  enthalpy: 0.5
 
 - type: gasCharacteristics
   id: WaterVapor
@@ -42,7 +42,7 @@
 
 - type: gasCharacteristics
   id: Ammonia
-  stability: 0
+  stability: -1
   growth: -1
   conductivity: 0
   enthalpy: -0.6
@@ -56,14 +56,14 @@
 
 - type: gasCharacteristics
   id: Frezon
-  stability: -0.2
+  stability: -1
   growth: -0.2
   conductivity: -0.2
   enthalpy: -1
 
 - type: gasCharacteristics
   id: BZ
-  stability: -0.8
+  stability: -1
   growth: 0
   conductivity: 0.8
   enthalpy: 0
@@ -84,15 +84,15 @@
 
 - type: gasCharacteristics
   id: Nitrium
-  stability: -1
+  stability: -3
   growth: -1
   conductivity: 1
   enthalpy: 1
 
 - type: gasCharacteristics
   id: Hydrogen
-  stability: -0.4
-  growth: -0.4
+  stability: -1
+  growth: 0.4
   conductivity: 0.4
   enthalpy: 0.4
 
@@ -105,14 +105,14 @@
 
 - type: gasCharacteristics
   id: ProtoNitrate
-  stability: -0.5
+  stability: -1
   growth: -0.5
   conductivity: -0.5
   enthalpy: -0.5
 
 - type: gasCharacteristics
   id: Zauker
-  stability: -0.5
+  stability: -1
   growth: 0.5
   conductivity: 0.5
   enthalpy: 0.5

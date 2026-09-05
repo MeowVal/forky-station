@@ -24,23 +24,23 @@
     powerPercentage: 0.005
     radiationDamageMultiplier: 10
     neutralStability: 10
-    baseStability: 10
+    baseStability: 0
     baseGrowth: 0
     baseConductivity: 0
     baseEnthalpy: 0
     reproductionThreshold: 1000
     reproductionDecay: 0.9
     powerDamageScale: 500
-    temperatureDamageScale: 100
+    temperatureDamageScale: 10
     absorptionHealing: 1
     absorptionHealingCost: 10
     growthAbsorptionScale: 45
     powerPerGasPacket: 3000
-    stabilityPowerDrainScale: 0.08
+    stabilityPowerDrainScale: 0.05
     integrityChangeCap: 2
     powerScalingFactor: 1000
     integrityDivisor: 10
-    vacuumDamagePerTile: 0.5
+    vacuumDamagePerTile: 1.1
     vacuumThreshold: 10
     ratioPerTile: 0.05
     RadiationDamageTypes:

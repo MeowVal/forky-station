@@ -289,7 +289,7 @@ public sealed partial class SupermatterSystem : SharedSupermatterSystem
         sm.Growth       *= stabilityEffectScale;
         sm.Conductivity *= stabilityEffectScale;
         sm.Enthalpy     *= stabilityEffectScale;
-        sm.Power += sm.Power * -sm.StabilityPowerDrainScale * sm.Stability - sm.Stability;
+        sm.Power += sm.Power * -sm.StabilityPowerDrainScale * sm.Stability;
         if (sm.Power <= 0f)
             sm.Power = 0f;
     }
@@ -410,12 +410,18 @@ public sealed partial class SupermatterSystem : SharedSupermatterSystem
             delta -= sm.Power / sm.PowerDamageScale;
 
             if (sm.Power > sm.VacuumDamageMinPower)
+            {
                 delta -= sm.CountVacuumTiles * sm.VacuumDamagePerTile;
+            }
 
             var gasTemp = sm.AbsorbedGas.Temperature;
             float neutralTemp = Atmospherics.T20C;
             neutralTemp += (sm.Stability - sm.NeutralStability) * sm.Enthalpy;
-            var tempDelta = ((gasTemp - neutralTemp) / sm.TemperatureDamageScale) * sm.Enthalpy;
+            var tempDelta = ((neutralTemp - gasTemp) / sm.TemperatureDamageScale);
+            if (sm.Enthalpy < 0)
+            {
+                tempDelta = -1;
+            }
             delta += tempDelta;
         }
 
