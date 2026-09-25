@@ -608,27 +608,10 @@ public sealed partial class SupermatterSystem : SharedSupermatterSystem
             return;
         var centerTile = _transformSystem.GetGridTilePositionOrDefault(uid);
 
-        if (sm.Enthalpy > 0 &&
-            sm.AbsorbedGas.GetMoles(Gas.Oxygen) >= 10f &&
-            sm.AbsorbedGas.GetMoles(Gas.CarbonDioxide) >= 10f)
-        {
-            var oxygen = sm.AbsorbedGas.GetMoles(Gas.Oxygen);
-            var co2 = sm.AbsorbedGas.GetMoles(Gas.CarbonDioxide);
-
-            var amount = MathF.Min(oxygen, co2) * 0.1f;
-
-            sm.AbsorbedGas.AdjustMoles((int) Gas.Oxygen, -amount);
-            sm.AbsorbedGas.AdjustMoles((int) Gas.CarbonDioxide, -amount);
-            sm.AbsorbedGas.AdjustMoles((int) Gas.Pluoxium, amount);
-        }
-
         var mixture = _atmosphereSystem.GetTileMixture(grid, args.Map, centerTile, excite: true);
         if (mixture == null)
             return;
 
         _atmosphereSystem.Merge(mixture, sm.AbsorbedGas);
     }
-
-
-
 }
