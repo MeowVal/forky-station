@@ -7,7 +7,7 @@
   components:
   - type: VendingMachineRestock
   - type: Sprite
-    sprite: Objects/Specific/Service/vending_machine_restock.rsi
+    sprite: _Funkystation/Objects/Specific/Service/vending_machine_restock.rsi # Funky
     layers:
     - state: base
     - state: green_bit
@@ -34,6 +34,9 @@
         sound:
           collection: MetalBreak
       - !type:DumpRestockInventory
+  - type: Tag #funky start, make them able to be stored on box shelves and carts
+    tags:
+    - CardboardboxLarge #funky end
 
 - type: entity
   parent: BaseVendingMachineRestock

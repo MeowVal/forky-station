@@ -3,6 +3,7 @@ using Content.Client.CombatMode;
 using Content.Client.Gameplay;
 using Content.Client.Graphics;
 using Content.Client.Outline;
+using Content.Client._Funkystation.Outline;
 using Content.Shared.ActionBlocker;
 using Content.Shared.CCVar;
 using Content.Shared.DragDrop;
@@ -49,6 +50,7 @@ public sealed partial class DragDropSystem : SharedDragDropSystem
     [Dependency] private SharedTransformSystem _transformSystem = default!;
     [Dependency] private SpriteSystem _sprite = default!;
     [Dependency] private EntityQuery<SpriteComponent> _spriteQuery = default!;
+    [Dependency] private InteractionOutlineColorManager _interactionOutlineColorManager = null!; // funky
 
     // how often to recheck possible targets (prevents calling expensive
     // check logic each update)
@@ -113,8 +115,8 @@ public sealed partial class DragDropSystem : SharedDragDropSystem
 
         Subs.CVar(_cfgMan, CCVars.DragDropDeadZone, SetDeadZone, true);
 
-        _dropTargetInRangeShader = ProtoMan.Index(ShaderDropTargetInRange).Instance();
-        _dropTargetOutOfRangeShader = ProtoMan.Index(ShaderDropTargetOutOfRange).Instance();
+        _dropTargetInRangeShader = ProtoMan.Index(ShaderDropTargetInRange).InstanceUnique(); // funky - get mutable instance
+        _dropTargetOutOfRangeShader = ProtoMan.Index(ShaderDropTargetOutOfRange).InstanceUnique(); // funky - get mutable instance
         // needs to fire on mouseup and mousedown so we can detect a drag / drop
         CommandBinds.Builder
             .BindBefore(EngineKeyFunctions.Use, new PointerInputCmdHandler(OnUse, false, true), new[] { typeof(SharedInteractionSystem) })
@@ -456,8 +458,14 @@ public sealed partial class DragDropSystem : SharedDragDropSystem
                         && _interactionSystem.InRangeUnobstructed(user.Value, entity);
             }
 
+            // funky start - with changes cherrypicked from https://github.com/metalgearsloth/space-station-14/commit/e29bbb8c6d8e6743c64fc0d403de492684a047d1
+            var shader = valid.Value ? _dropTargetInRangeShader! : _dropTargetOutOfRangeShader!;
+
+            shader.SetParameter("outline_color", _interactionOutlineColorManager.GetOutlineColor(valid.Value)); // funky - custom outline color
+
             // highlight depending on whether its in or out of range
-            SetDragDropPostShader((entity, inRangeSprite), valid.Value ? _dropTargetInRangeShader! : _dropTargetOutOfRangeShader!);
+            SetDragDropPostShader((entity, inRangeSprite), shader);
+            // funky end
             inRangeSprite.RenderOrder = EntityManager.CurrentTick.Value;
             _nextHighlightedSprites.Add(inRangeSprite);
         }

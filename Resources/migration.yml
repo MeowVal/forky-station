@@ -1175,7 +1175,7 @@ StatueBananiumClown: StatueOrnateClown
 DrinkNeurotoxinGlass: null
 
 #2026-08-19
-JanitorServiceLight: null
+#JanitorServiceLight: null #commented out due to funky
 
 # 2026-08-31 RMC Pump/Breech Ports
 WeaponSniperMosin: FuWeaponSniperMosin
@@ -1183,3 +1183,10 @@ WeaponShotgunKammerer: FuWeaponShotgunKammerer
 WeaponShotgunDoubleBarreled: FuWeaponShotgunDoubleBarreled
 WeaponShotgunSawn: FuWeaponShotgunSawn
 WeaponLauncherChinaLake: FuWeaponLauncherChinaLake
+
+# 2026-09-12 Funky RCD/RPD to Chalk
+RPD: ConstructionChalkBox
+RCD: ConstructionChalkBox
+RCDEmpty: ConstructionChalkBox
+RCDRecharging: ConstructionChalkBox
+RCDAmmo: ConstructionChalk

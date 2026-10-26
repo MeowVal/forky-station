@@ -36,6 +36,9 @@ public sealed partial class RadioChannelPrototype : IPrototype
     /// <summary>
     /// Color used to display the channel.
     /// </summary>
+    /// <funky>
+    /// Even if you're using channel color presets, you should set this as a fallback.
+    /// </funky>
     [DataField]
     public Color Color { get; private set; } = Color.Lime;
 
@@ -44,4 +47,11 @@ public sealed partial class RadioChannelPrototype : IPrototype
     /// </summary>
     [DataField]
     public bool LongRange;
+
+    /// <summary>
+    /// ImpStation original. If a channel is readOnly, then headsets cannot send messages through it.
+    /// Intercomms still can.
+    /// </summary>
+    [DataField("intercomOnly")]
+    public bool IntercomOnly = false;
 }

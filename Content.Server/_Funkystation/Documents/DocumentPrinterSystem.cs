@@ -1,6 +1,7 @@
 using System.Linq;
 using Content.Server.Popups;
 using Content.Server.Tools;
+using Content.Shared._Starlight.DocumentManager;
 using Content.Shared.Access.Systems;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DoAfter;
@@ -19,7 +20,6 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
 
@@ -43,6 +43,7 @@ public sealed partial class DocumentPrinterSystem : EntitySystem
     [Dependency] private ToolSystem _toolSystem = null!;
     [Dependency] private SharedDoAfterSystem _doAfter = null!;
     [Dependency] private PopupSystem _popup = null!;
+    [Dependency] private PreWrittenDocumentManager _documentManager = default!;
 
     private const string PaperSlotId = "Paper";
 
@@ -255,8 +256,26 @@ public sealed partial class DocumentPrinterSystem : EntitySystem
                 return;
             }
 
+            if (!_documentManager.TryGetDocumentContents(doc.ContentFileName, out var contents))
+                return;
+
             var paper = Spawn(doc.PaperPrototype, coords);
-            _paper.SetContent(paper, Loc.GetString(doc.Content));
+
+            // The labeling code will throw an exception if there's no newline in the text so we should make sure there is one first
+            if (contents.IndexOf('\n', StringComparison.Ordinal) > -1)
+            {
+                var firstLine = contents.Substring(0, contents.IndexOf('\n', StringComparison.Ordinal));
+
+                if (firstLine.StartsWith('#'))
+                {
+                    // Pretty much taken from the fax code. Ignore the hash and remove the whitespace when making it a label
+                    _label.Label(paper, firstLine[1..].Trim());
+
+                    // Cut the label out of the rest of the text. The +1 is to catch the newline too
+                    contents = contents.Substring(firstLine.Length + 1);
+                }
+            }
+            _paper.SetContent(paper, contents);
 
             _appearance.SetData(uid, DocumentPrinterVisuals.VisualState, DocumentPrinterVisualState.Normal);
         });

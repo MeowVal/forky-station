@@ -1,4 +1,5 @@
 using System.Numerics;
+using Content.Client._Funkystation.Outline;
 using Content.Client.Graphics;
 using Content.Shared.Interaction;
 using Content.Shared.Whitelist;
@@ -6,6 +7,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
 using Robust.Client.Player;
+using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
@@ -29,6 +31,7 @@ public sealed partial class TargetOutlineSystem : EntitySystem
     [Dependency] private SharedTransformSystem _transformSystem = default!;
     [Dependency] private EntityQuery<SpriteComponent> _spriteQuery = default!;
     [Dependency] private SpriteSystem _sprite = default!;
+    [Dependency] private InteractionOutlineColorManager _interactionOutlineColorManager = null!; // funky
 
     private bool _enabled = false;
 
@@ -175,11 +178,17 @@ public sealed partial class TargetOutlineSystem : EntitySystem
                 valid = (origin - target).LengthSquared() <= Range;
             }
 
+            // funky start - with changes cherrypicked from https://github.com/metalgearsloth/space-station-14/commit/e29bbb8c6d8e6743c64fc0d403de492684a047d1
+            var shader = valid ? _shaderTargetValid! : _shaderTargetInvalid!;
+
+            shader.SetParameter("outline_color", _interactionOutlineColorManager.GetOutlineColor(valid));
+
             // highlight depending on whether its in or out of range
-            _sprite.SetPostShader(sprite, new SpriteComponent.PostShaderArgs(ContentPostShaderIds.TargetOutline, valid ? _shaderTargetValid! : _shaderTargetInvalid!)
+            _sprite.SetPostShader(sprite, new SpriteComponent.PostShaderArgs(ContentPostShaderIds.TargetOutline, shader)
             {
                 After = ContentPostShaderIds.AfterBaseEffects,
             });
+            // funky end
             sprite.RenderOrder = EntityManager.CurrentTick.Value;
             _highlightedSprites.Add(sprite);
         }
