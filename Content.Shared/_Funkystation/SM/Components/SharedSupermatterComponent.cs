@@ -90,6 +90,9 @@ public sealed partial class SharedSupermatterComponent : Component
     [DataField("gravAcceleration")]
     public float GravAcceleration = 1f;
 
+    [DataField("MinLightningInterval")]
+    public float MinLightningInterval = 0.5f;
+
     // --- Process values ---
     [DataField("gasCharacteristicScalar")]
     public float GasCharacteristicScalar = 100f;

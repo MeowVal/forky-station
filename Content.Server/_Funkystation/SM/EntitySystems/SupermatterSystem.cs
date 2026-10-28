@@ -3,13 +3,11 @@ using Content.Server._Funkystation.SM.Events;
 using Content.Server.Atmos.EntitySystems;
 using Content.Server.Singularity.Components;
 using Content.Shared._Funkystation.SM;
-using Content.Shared._Funkystation.SM.Components;
 using Content.Shared._Funkystation.SM.Prototypes;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Radiation.Components;
-using Content.Shared.Tag;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Configuration;
@@ -22,6 +20,7 @@ public sealed partial class SupermatterSystem : SharedSupermatterSystem
     [Dependency] private readonly IPrototypeManager _proto = default!;
     [Dependency] private readonly TransformSystem _transformSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SupermatterLightningSystem _lightning = default!;
     [Dependency] private readonly IConfigurationManager _cfg = default!;
 
 
@@ -144,6 +143,9 @@ public sealed partial class SupermatterSystem : SharedSupermatterSystem
 
         ComputeRadiation(sm);
         EmitRadiation(uid, sm);
+
+        _lightning.ProcessLightning(uid, sm, args.dt);
+
 
         UpdateItemPull(uid, sm);
 

@@ -1,11 +1,9 @@
 ﻿using System.Numerics;
 using Content.Shared._Funkystation.SM.Components;
 using Content.Server.Anomaly.Components;
-using Content.Shared._Funkystation.SM.Components;
 using Content.Server.Atmos.EntitySystems;
 using Content.Shared._Funkystation.SM;
 using Content.Shared.Physics;
-using Robust.Shared.Map;
 using Robust.Shared.Physics;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Components;

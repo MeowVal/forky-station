@@ -5,11 +5,10 @@ using Content.Shared._Funkystation.SM;
 using Content.Shared._Funkystation.SM.Components;
 using Content.Shared.Power.Components;
 using Content.Shared.Power.EntitySystems;
-using Robust.Shared.Map;
 using Robust.Shared.Random;
 
 namespace Content.Server._Funkystation.SM.EntitySystems;
-
+[Access( typeof(SharedSupermatterSystem))]
 public sealed partial class SupermatterLightningSystem : SharedSupermatterLightningSystem
 {
     [Dependency] private readonly IRobustRandom _random = default!;
@@ -18,38 +17,30 @@ public sealed partial class SupermatterLightningSystem : SharedSupermatterLightn
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedBatterySystem _battery = default!;
 
-    public override void Update(float frameTime)
+
+    public void ProcessLightning(EntityUid uid, SharedSupermatterComponent sm, float atmosDeltaTime)
     {
-        base.Update(frameTime);
+        // No lightning unless conductivity is strong enough aka positive conductivity
+        if (MathF.Abs(sm.Conductivity) < 0.001f)
+            return;
 
-        var query = EntityQueryEnumerator<SharedSupermatterComponent>();
+        sm.LightningTimer -= atmosDeltaTime;
 
-        while (query.MoveNext(out var uid, out var sm))
-        {
-            // No lightning unless conductivity is strong enough
-            if (MathF.Abs(sm.Conductivity) < 1f)
-                continue;
+        if (sm.LightningTimer > 0f)
+            return;
 
-            sm.LightningTimer -= frameTime;
+        FireLightning(uid, sm);
 
-            if (sm.LightningTimer > 0f)
-                continue;
-
-            FireLightning(uid, sm);
-
-            sm.LightningTimer = ComputeInterval(sm);
-        }
+        sm.LightningTimer = ComputeInterval(sm);
     }
 
     private float ComputeInterval(SharedSupermatterComponent sm)
     {
         var c = MathF.Abs(sm.Conductivity);
 
-        // Base: 10s - 0.1s per conductivity
-        var interval = 10f - 0.1f * c;
+        var interval = 10f - c * 2f;
 
-        // Minimum interval
-        return MathF.Max(interval, 0.5f);
+        return Math.Clamp(interval, 0.5f, 10f);
     }
 
     private void FireLightning(EntityUid uid, SharedSupermatterComponent sm)
@@ -68,7 +59,7 @@ public sealed partial class SupermatterLightningSystem : SharedSupermatterLightn
         // Arc depth scales with conductivity
         var arcDepth = (int)MathF.Max(1, MathF.Abs(sm.Conductivity));
 
-        if (sm.Conductivity >= 1f)
+        if (sm.Conductivity > 0f)
             FirePositiveBolt(uid, sm.LightningRange, proto, energy, arcDepth, bolts);
         else
             FireNegativeBolt(uid, sm.LightningRange, proto, energy, bolts);
